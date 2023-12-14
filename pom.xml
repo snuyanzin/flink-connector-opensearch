@@ -52,11 +52,8 @@ under the License.
 
 	<modules>
 		<module>flink-connector-opensearch</module>
-		<module>flink-connector-opensearch2</module>
 		<module>flink-connector-opensearch-e2e-tests</module>
-		<module>flink-connector-opensearch2-e2e-tests</module>
 		<module>flink-sql-connector-opensearch</module>
-		<module>flink-sql-connector-opensearch2</module>
 	</modules>
 
 	<properties>
@@ -347,8 +344,36 @@ under the License.
 				<version>1.0.0</version>
 				<scope>test</scope>
 			</dependency>
+
+			<dependency>
+				<!-- mockito/powermock mismatch -->
+				<groupId>net.bytebuddy</groupId>
+				<artifactId>byte-buddy</artifactId>
+				<version>1.14.10</version>
+			</dependency>
+
+			<dependency>
+				<!-- mockito/powermock mismatch -->
+				<groupId>net.bytebuddy</groupId>
+				<artifactId>byte-buddy-agent</artifactId>
+				<version>1.14.10</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
+	<profiles>
+	<profile>
+		<id>java11</id>
+		<activation>
+			<jdk>[11,)</jdk>
+		</activation>
+		<modules>
+			<module>flink-connector-opensearch2</module>
+			<module>flink-connector-opensearch2-e2e-tests</module>
+			<module>flink-sql-connector-opensearch2</module>
+		</modules>
+	</profile>
+	</profiles>
 
 	<build>
 		<plugins>

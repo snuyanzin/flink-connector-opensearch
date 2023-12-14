@@ -26,7 +26,7 @@ jobs:
     strategy:
       matrix:
         flink: [ 1.17.1, 1.18-SNAPSHOT ]
-        jdk: [ 11, 17 ]
+        jdk: [ 8, 11, 17 ]
         exclude:
           - flink: 1.17.1
             jdk: 17

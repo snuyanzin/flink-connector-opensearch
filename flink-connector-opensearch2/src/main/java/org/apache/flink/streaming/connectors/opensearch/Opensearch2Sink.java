@@ -20,7 +20,6 @@ package org.apache.flink.streaming.connectors.opensearch;
 import org.apache.flink.annotation.PublicEvolving;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.configuration.Configuration;
-import org.apache.flink.connector.opensearch.sink.Opensearch2Sink;
 import org.apache.flink.connector.opensearch.sink.Opensearch2SinkBuilder;
 import org.apache.flink.runtime.state.FunctionInitializationContext;
 import org.apache.flink.runtime.state.FunctionSnapshotContext;
@@ -72,13 +71,14 @@ import static org.apache.flink.util.Preconditions.checkNotNull;
  * OpensearchSinkFunction} for processing.
  *
  * @param <T> Type of the elements handled by this sink
- * @deprecated This sink has been deprecated in favor of {@link Opensearch2Sink}
+ * @deprecated This sink has been deprecated in favor of {@link
+ *     org.apache.flink.connector.opensearch.sink.Opensearch2Sink}
  */
 @Deprecated
 @PublicEvolving
-public class OpensearchSink<T> extends RichSinkFunction<T> implements CheckpointedFunction {
+public class Opensearch2Sink<T> extends RichSinkFunction<T> implements CheckpointedFunction {
     private static final long serialVersionUID = -1007596293618451942L;
-    private static final Logger LOG = LoggerFactory.getLogger(OpensearchSink.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Opensearch2Sink.class);
 
     // ------------------------------------------------------------------------
     //  Internal bulk processor configuration
@@ -196,7 +196,7 @@ public class OpensearchSink<T> extends RichSinkFunction<T> implements Checkpoint
 
     /**
      * Number of pending action requests not yet acknowledged by Opensearch. This value is
-     * maintained only if {@link OpensearchSink#flushOnCheckpoint} is {@code true}.
+     * maintained only if {@link Opensearch2Sink#flushOnCheckpoint} is {@code true}.
      *
      * <p>This is incremented whenever the user adds (or re-adds through the {@link
      * ActionRequestFailureHandler}) requests to the {@link RequestIndexer}. It is decremented for
@@ -225,7 +225,7 @@ public class OpensearchSink<T> extends RichSinkFunction<T> implements Checkpoint
      */
     private final AtomicReference<Throwable> failureThrowable = new AtomicReference<>();
 
-    private OpensearchSink(
+    private Opensearch2Sink(
             Map<String, String> userConfig,
             List<HttpHost> httpHosts,
             OpensearchSinkFunction<T> opensearchSinkFunction,
@@ -429,7 +429,7 @@ public class OpensearchSink<T> extends RichSinkFunction<T> implements Checkpoint
     /**
      * Verify the client connection by making a test request/ping to the Opensearch cluster.
      *
-     * <p>Called by {@link OpensearchSink#open(org.apache.flink.configuration.Configuration)} after
+     * <p>Called by {@link Opensearch2Sink#open(org.apache.flink.configuration.Configuration)} after
      * creating the client. This makes sure the underlying client is closed if the connection is not
      * successful and preventing thread leak.
      *
@@ -459,7 +459,7 @@ public class OpensearchSink<T> extends RichSinkFunction<T> implements Checkpoint
      */
     private static void configureBulkProcessorBackoff(
             BulkProcessor.Builder builder,
-            @Nullable OpensearchSink.BulkFlushBackoffPolicy flushBackoffPolicy) {
+            @Nullable Opensearch2Sink.BulkFlushBackoffPolicy flushBackoffPolicy) {
 
         BackoffPolicy backoffPolicy;
         if (flushBackoffPolicy != null) {
@@ -624,7 +624,7 @@ public class OpensearchSink<T> extends RichSinkFunction<T> implements Checkpoint
     }
 
     /**
-     * A builder for creating an {@link OpensearchSink}.
+     * A builder for creating an {@link Opensearch2Sink}.
      *
      * @param <T> Type of the elements handled by the sink this builder creates.
      * @deprecated This has been deprecated, please use {@link Opensearch2SinkBuilder}.
@@ -771,8 +771,8 @@ public class OpensearchSink<T> extends RichSinkFunction<T> implements Checkpoint
          *
          * @return the created Opensearch sink.
          */
-        public OpensearchSink<T> build() {
-            return new OpensearchSink<>(
+        public Opensearch2Sink<T> build() {
+            return new Opensearch2Sink<>(
                     bulkRequestsConfig,
                     httpHosts,
                     opensearchSinkFunction,

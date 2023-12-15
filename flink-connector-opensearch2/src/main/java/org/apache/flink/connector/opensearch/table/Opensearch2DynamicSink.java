@@ -113,8 +113,8 @@ class OpensearchDynamicSink implements DynamicTableSink {
         SerializationSchema<RowData> format =
                 this.format.createRuntimeEncoder(context, physicalRowDataType);
 
-        final RowOpensearchEmitter rowOpensearchEmitter =
-                new RowOpensearchEmitter(
+        final RowOpensearch2Emitter rowOpensearchEmitter =
+                new RowOpensearch2Emitter(
                         createIndexGenerator(), format, XContentType.JSON, createKeyExtractor());
 
         final Opensearch2SinkBuilder<RowData> builder = new Opensearch2SinkBuilder<>();

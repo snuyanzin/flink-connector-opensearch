@@ -42,7 +42,7 @@ import static org.apache.flink.table.factories.FactoryUtil.SINK_PARALLELISM;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-/** Tests for validation in {@link OpensearchDynamicSinkFactory}. */
+/** Tests for validation in {@link Opensearch2DynamicSinkFactory}. */
 @ExtendWith(TestLoggerExtension.class)
 class OpensearchDynamicSinkFactoryTest {
     private TestContext createPrefilledTestContext() {
@@ -54,7 +54,7 @@ class OpensearchDynamicSinkFactoryTest {
 
     @Test
     public void validateEmptyConfiguration() {
-        OpensearchDynamicSinkFactory sinkFactory = new OpensearchDynamicSinkFactory();
+        Opensearch2DynamicSinkFactory sinkFactory = new Opensearch2DynamicSinkFactory();
 
         assertValidationException(
                 "One or more required options are missing.\n"
@@ -75,7 +75,7 @@ class OpensearchDynamicSinkFactoryTest {
 
     @Test
     public void validateWrongIndex() {
-        OpensearchDynamicSinkFactory sinkFactory = new OpensearchDynamicSinkFactory();
+        Opensearch2DynamicSinkFactory sinkFactory = new Opensearch2DynamicSinkFactory();
         assertValidationException(
                 "'index' must not be empty",
                 () ->
@@ -88,7 +88,7 @@ class OpensearchDynamicSinkFactoryTest {
 
     @Test
     public void validateWrongHosts() {
-        OpensearchDynamicSinkFactory sinkFactory = new OpensearchDynamicSinkFactory();
+        Opensearch2DynamicSinkFactory sinkFactory = new Opensearch2DynamicSinkFactory();
         assertValidationException(
                 "Could not parse host 'wrong-host' in option 'hosts'. It should follow the format 'http://host_name:port'.",
                 () ->
@@ -102,7 +102,7 @@ class OpensearchDynamicSinkFactoryTest {
 
     @Test
     public void validateWrongFlushSize() {
-        OpensearchDynamicSinkFactory sinkFactory = new OpensearchDynamicSinkFactory();
+        Opensearch2DynamicSinkFactory sinkFactory = new Opensearch2DynamicSinkFactory();
         assertValidationException(
                 "'sink.bulk-flush.max-size' must be in MB granularity. Got: 1024 bytes",
                 () ->
@@ -118,7 +118,7 @@ class OpensearchDynamicSinkFactoryTest {
 
     @Test
     public void validateWrongRetries() {
-        OpensearchDynamicSinkFactory sinkFactory = new OpensearchDynamicSinkFactory();
+        Opensearch2DynamicSinkFactory sinkFactory = new Opensearch2DynamicSinkFactory();
 
         assertValidationException(
                 "'sink.bulk-flush.backoff.max-retries' must be at least 1. Got: 0",
@@ -135,7 +135,7 @@ class OpensearchDynamicSinkFactoryTest {
 
     @Test
     public void validateWrongMaxActions() {
-        OpensearchDynamicSinkFactory sinkFactory = new OpensearchDynamicSinkFactory();
+        Opensearch2DynamicSinkFactory sinkFactory = new Opensearch2DynamicSinkFactory();
 
         assertValidationException(
                 "'sink.bulk-flush.max-actions' must be at least 1. Got: -2",
@@ -152,7 +152,7 @@ class OpensearchDynamicSinkFactoryTest {
 
     @Test
     public void validateWrongBackoffDelay() {
-        OpensearchDynamicSinkFactory sinkFactory = new OpensearchDynamicSinkFactory();
+        Opensearch2DynamicSinkFactory sinkFactory = new Opensearch2DynamicSinkFactory();
 
         assertValidationException(
                 "Invalid value for option 'sink.bulk-flush.backoff.delay'.",
@@ -169,7 +169,7 @@ class OpensearchDynamicSinkFactoryTest {
 
     @Test
     public void validatePrimaryKeyOnIllegalColumn() {
-        OpensearchDynamicSinkFactory sinkFactory = new OpensearchDynamicSinkFactory();
+        Opensearch2DynamicSinkFactory sinkFactory = new Opensearch2DynamicSinkFactory();
 
         assertValidationException(
                 "The table has a primary key on columns of illegal types: "
@@ -237,7 +237,7 @@ class OpensearchDynamicSinkFactoryTest {
 
     @Test
     public void validateWrongCredential() {
-        OpensearchDynamicSinkFactory sinkFactory = new OpensearchDynamicSinkFactory();
+        Opensearch2DynamicSinkFactory sinkFactory = new Opensearch2DynamicSinkFactory();
 
         assertValidationException(
                 "'username' and 'password' must be set at the same time. Got: username 'username' and password ''",
@@ -255,7 +255,7 @@ class OpensearchDynamicSinkFactoryTest {
 
     @Test
     public void testSinkParallelism() {
-        OpensearchDynamicSinkFactory sinkFactory = new OpensearchDynamicSinkFactory();
+        Opensearch2DynamicSinkFactory sinkFactory = new Opensearch2DynamicSinkFactory();
         DynamicTableSink sink =
                 sinkFactory.createDynamicTableSink(
                         createPrefilledTestContext()
@@ -271,7 +271,7 @@ class OpensearchDynamicSinkFactoryTest {
 
     @Test
     public void validateDynamicIndexOnChangelogStream() {
-        OpensearchDynamicSinkFactory sinkFactory = new OpensearchDynamicSinkFactory();
+        Opensearch2DynamicSinkFactory sinkFactory = new Opensearch2DynamicSinkFactory();
         DynamicTableSink sink =
                 sinkFactory.createDynamicTableSink(
                         createPrefilledTestContext()

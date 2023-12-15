@@ -22,4 +22,4 @@ import org.apache.flink.connector.opensearch.sink.Opensearch2SinkBuilder;
 
 import java.util.function.Supplier;
 
-interface OpensearchSinkBuilderSupplier<T> extends Supplier<Opensearch2SinkBuilder<T>> {}
+interface Opensearch2SinkBuilderSupplier<T> extends Supplier<Opensearch2SinkBuilder<T>> {}

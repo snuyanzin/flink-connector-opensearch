@@ -24,7 +24,7 @@ import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.connectors.opensearch.ActionRequestFailureHandler;
-import org.apache.flink.streaming.connectors.opensearch.OpensearchSink;
+import org.apache.flink.streaming.connectors.opensearch.Opensearch2Sink;
 import org.apache.flink.streaming.connectors.opensearch.RequestIndexer;
 import org.apache.flink.util.Collector;
 
@@ -72,8 +72,8 @@ public class OpensearchSinkExample {
         List<HttpHost> httpHosts = new ArrayList<>();
         httpHosts.add(new HttpHost("127.0.0.1", 9200, "http"));
 
-        OpensearchSink.Builder<Tuple2<String, String>> osSinkBuilder =
-                new OpensearchSink.Builder<>(
+        Opensearch2Sink.Builder<Tuple2<String, String>> osSinkBuilder =
+                new Opensearch2Sink.Builder<>(
                         httpHosts,
                         (Tuple2<String, String> element,
                                 RuntimeContext ctx,

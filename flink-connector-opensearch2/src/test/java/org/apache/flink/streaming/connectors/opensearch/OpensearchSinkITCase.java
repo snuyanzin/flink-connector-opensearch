@@ -44,7 +44,7 @@ import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-/** IT cases for the {@link OpensearchSink}. */
+/** IT cases for the {@link Opensearch2Sink}. */
 @Testcontainers
 public class OpensearchSinkITCase extends AbstractTestBase {
 
@@ -104,19 +104,19 @@ public class OpensearchSinkITCase extends AbstractTestBase {
                 .hasCauseInstanceOf(JobException.class);
     }
 
-    private OpensearchSink<Tuple2<Integer, String>> createOpensearchSink(
+    private Opensearch2Sink<Tuple2<Integer, String>> createOpensearchSink(
             int bulkFlushMaxActions,
             List<HttpHost> httpHosts,
             OpensearchSinkFunction<Tuple2<Integer, String>> opensearchSinkFunction) {
 
-        OpensearchSink.Builder<Tuple2<Integer, String>> builder =
-                new OpensearchSink.Builder<>(httpHosts, opensearchSinkFunction);
+        Opensearch2Sink.Builder<Tuple2<Integer, String>> builder =
+                new Opensearch2Sink.Builder<>(httpHosts, opensearchSinkFunction);
         builder.setBulkFlushMaxActions(bulkFlushMaxActions);
 
         return builder.build();
     }
 
-    private OpensearchSink<Tuple2<Integer, String>> createOpensearchSinkForNode(
+    private Opensearch2Sink<Tuple2<Integer, String>> createOpensearchSinkForNode(
             int bulkFlushMaxActions,
             OpensearchSinkFunction<Tuple2<Integer, String>> opensearchSinkFunction,
             String hostAddress) {
@@ -124,8 +124,8 @@ public class OpensearchSinkITCase extends AbstractTestBase {
         ArrayList<HttpHost> httpHosts = new ArrayList<>();
         httpHosts.add(HttpHost.create(hostAddress));
 
-        OpensearchSink.Builder<Tuple2<Integer, String>> builder =
-                new OpensearchSink.Builder<>(httpHosts, opensearchSinkFunction);
+        Opensearch2Sink.Builder<Tuple2<Integer, String>> builder =
+                new Opensearch2Sink.Builder<>(httpHosts, opensearchSinkFunction);
         builder.setBulkFlushMaxActions(bulkFlushMaxActions);
         builder.setRestClientFactory(OpensearchUtil.createClientFactory(OS_CONTAINER));
 

@@ -139,7 +139,7 @@ class OpensearchDynamicSinkITCase {
                                 LocalDateTime.parse("2012-12-12T12:12:12")));
 
         String index = "writing-documents";
-        OpensearchDynamicSinkFactory sinkFactory = new OpensearchDynamicSinkFactory();
+        Opensearch2DynamicSinkFactory sinkFactory = new Opensearch2DynamicSinkFactory();
 
         DynamicTableSink.SinkRuntimeProvider runtimeProvider =
                 sinkFactory

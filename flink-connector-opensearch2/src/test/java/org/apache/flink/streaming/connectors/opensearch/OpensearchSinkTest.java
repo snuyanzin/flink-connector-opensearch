@@ -65,7 +65,7 @@ import java.util.function.Supplier;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-/** Suite of tests for {@link OpensearchSink}. */
+/** Suite of tests for {@link Opensearch2Sink}. */
 public class OpensearchSinkTest {
     private HttpServer server;
     private final Deque<Consumer<HttpResponse>> responses = new ConcurrentLinkedDeque<>();
@@ -112,14 +112,14 @@ public class OpensearchSinkTest {
      */
     @Test
     public void testItemFailureRethrownOnInvoke() throws Throwable {
-        final OpensearchSink.Builder<String> builder =
-                new OpensearchSink.Builder<>(
+        final Opensearch2Sink.Builder<String> builder =
+                new Opensearch2Sink.Builder<>(
                         Arrays.asList(new HttpHost("localhost", server.getLocalPort())),
                         new SimpleSinkFunction<String>());
         builder.setBulkFlushMaxActions(1);
         builder.setFailureHandler(new NoOpFailureHandler());
 
-        final OpensearchSink<String> sink = builder.build();
+        final Opensearch2Sink<String> sink = builder.build();
         final OneInputStreamOperatorTestHarness<String, Object> testHarness =
                 new OneInputStreamOperatorTestHarness<>(new StreamSink<>(sink));
 
@@ -148,14 +148,14 @@ public class OpensearchSinkTest {
      */
     @Test
     public void testItemFailureRethrownOnCheckpoint() throws Throwable {
-        final OpensearchSink.Builder<String> builder =
-                new OpensearchSink.Builder<>(
+        final Opensearch2Sink.Builder<String> builder =
+                new Opensearch2Sink.Builder<>(
                         Arrays.asList(new HttpHost("localhost", server.getLocalPort())),
                         new SimpleSinkFunction<String>());
         builder.setBulkFlushMaxActions(1);
         builder.setFailureHandler(new NoOpFailureHandler());
 
-        final OpensearchSink<String> sink = builder.build();
+        final Opensearch2Sink<String> sink = builder.build();
         final OneInputStreamOperatorTestHarness<String, Object> testHarness =
                 new OneInputStreamOperatorTestHarness<>(new StreamSink<>(sink));
 
@@ -186,14 +186,14 @@ public class OpensearchSinkTest {
     @Test
     @Timeout(5)
     public void testItemFailureRethrownOnCheckpointAfterFlush() throws Throwable {
-        final OpensearchSink.Builder<String> builder =
-                new OpensearchSink.Builder<>(
+        final Opensearch2Sink.Builder<String> builder =
+                new Opensearch2Sink.Builder<>(
                         Arrays.asList(new HttpHost("localhost", server.getLocalPort())),
                         new SimpleSinkFunction<String>());
         builder.setBulkFlushInterval(1000);
         builder.setFailureHandler(new NoOpFailureHandler());
 
-        final OpensearchSink<String> sink = builder.build();
+        final Opensearch2Sink<String> sink = builder.build();
         final OneInputStreamOperatorTestHarness<String, Object> testHarness =
                 new OneInputStreamOperatorTestHarness<>(new StreamSink<>(sink));
 
@@ -252,14 +252,14 @@ public class OpensearchSinkTest {
      */
     @Test
     public void testBulkFailureRethrownOnInvoke() throws Throwable {
-        final OpensearchSink.Builder<String> builder =
-                new OpensearchSink.Builder<>(
+        final Opensearch2Sink.Builder<String> builder =
+                new Opensearch2Sink.Builder<>(
                         Arrays.asList(new HttpHost("localhost", server.getLocalPort())),
                         new SimpleSinkFunction<String>());
         builder.setBulkFlushMaxActions(1);
         builder.setFailureHandler(new NoOpFailureHandler());
 
-        final OpensearchSink<String> sink = builder.build();
+        final Opensearch2Sink<String> sink = builder.build();
         final OneInputStreamOperatorTestHarness<String, Object> testHarness =
                 new OneInputStreamOperatorTestHarness<>(new StreamSink<>(sink));
 
@@ -281,14 +281,14 @@ public class OpensearchSinkTest {
      */
     @Test
     public void testBulkFailureRethrownOnCheckpoint() throws Throwable {
-        final OpensearchSink.Builder<String> builder =
-                new OpensearchSink.Builder<>(
+        final Opensearch2Sink.Builder<String> builder =
+                new Opensearch2Sink.Builder<>(
                         Arrays.asList(new HttpHost("localhost", server.getLocalPort())),
                         new SimpleSinkFunction<String>());
         builder.setBulkFlushMaxActions(1);
         builder.setFailureHandler(new NoOpFailureHandler());
 
-        final OpensearchSink<String> sink = builder.build();
+        final Opensearch2Sink<String> sink = builder.build();
         final OneInputStreamOperatorTestHarness<String, Object> testHarness =
                 new OneInputStreamOperatorTestHarness<>(new StreamSink<>(sink));
 
@@ -313,14 +313,14 @@ public class OpensearchSinkTest {
     @Test
     @Timeout(5)
     public void testBulkFailureRethrownOnOnCheckpointAfterFlush() throws Throwable {
-        final OpensearchSink.Builder<String> builder =
-                new OpensearchSink.Builder<>(
+        final Opensearch2Sink.Builder<String> builder =
+                new Opensearch2Sink.Builder<>(
                         Arrays.asList(new HttpHost("localhost", server.getLocalPort())),
                         new SimpleSinkFunction<String>());
         builder.setBulkFlushInterval(1000);
         builder.setFailureHandler(new NoOpFailureHandler());
 
-        final OpensearchSink<String> sink = builder.build();
+        final Opensearch2Sink<String> sink = builder.build();
         final OneInputStreamOperatorTestHarness<String, Object> testHarness =
                 new OneInputStreamOperatorTestHarness<>(new StreamSink<>(sink));
 
@@ -372,15 +372,15 @@ public class OpensearchSinkTest {
     @Test
     @Timeout(5)
     public void testAtLeastOnceSink() throws Throwable {
-        final OpensearchSink.Builder<String> builder =
-                new OpensearchSink.Builder<>(
+        final Opensearch2Sink.Builder<String> builder =
+                new Opensearch2Sink.Builder<>(
                         Arrays.asList(new HttpHost("localhost", server.getLocalPort())),
                         new SimpleSinkFunction<String>());
         builder.setBulkFlushInterval(1000);
         // use a failure handler that simply re-adds requests
         builder.setFailureHandler(new DummyRetryFailureHandler());
 
-        final OpensearchSink<String> sink = builder.build();
+        final Opensearch2Sink<String> sink = builder.build();
         final OneInputStreamOperatorTestHarness<String, Object> testHarness =
                 new OneInputStreamOperatorTestHarness<>(new StreamSink<>(sink));
 
@@ -450,12 +450,12 @@ public class OpensearchSinkTest {
     @Test
     @Timeout(5)
     public void testDoesNotWaitForPendingRequestsIfFlushingDisabled() throws Exception {
-        final OpensearchSink.Builder<String> builder =
-                new OpensearchSink.Builder<>(
+        final Opensearch2Sink.Builder<String> builder =
+                new Opensearch2Sink.Builder<>(
                         Arrays.asList(new HttpHost("localhost", server.getLocalPort())),
                         new SimpleSinkFunction<String>());
 
-        final OpensearchSink<String> sink = builder.build();
+        final Opensearch2Sink<String> sink = builder.build();
         sink.disableFlushOnCheckpoint(); // disable flushing
 
         final OneInputStreamOperatorTestHarness<String, Object> testHarness =
@@ -486,13 +486,13 @@ public class OpensearchSinkTest {
     @Test
     public void testOpenAndCloseInSinkFunction() throws Exception {
         final SimpleClosableSinkFunction<String> sinkFunction = new SimpleClosableSinkFunction<>();
-        final OpensearchSink.Builder<String> builder =
-                new OpensearchSink.Builder<>(
+        final Opensearch2Sink.Builder<String> builder =
+                new Opensearch2Sink.Builder<>(
                         Arrays.asList(new HttpHost("localhost", server.getLocalPort())),
                         sinkFunction);
         builder.setFailureHandler(new DummyRetryFailureHandler());
 
-        final OpensearchSink<String> sink = builder.build();
+        final Opensearch2Sink<String> sink = builder.build();
         sink.setRuntimeContext(new MockStreamingRuntimeContext(false, 1, 0));
         sink.open(new Configuration());
         sink.close();

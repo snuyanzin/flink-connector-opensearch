@@ -41,14 +41,14 @@ import java.util.function.Function;
 import static org.apache.flink.util.Preconditions.checkNotNull;
 
 /** Sink function for converting upserts into Opensearch {@link ActionRequest}s. */
-class RowOpensearchEmitter implements OpensearchEmitter<RowData> {
+class RowOpensearch2Emitter implements OpensearchEmitter<RowData> {
 
     private final IndexGenerator indexGenerator;
     private final SerializationSchema<RowData> serializationSchema;
     private final XContentType contentType;
     private final Function<RowData, String> createKey;
 
-    public RowOpensearchEmitter(
+    public RowOpensearch2Emitter(
             IndexGenerator indexGenerator,
             SerializationSchema<RowData> serializationSchema,
             XContentType contentType,
@@ -72,7 +72,7 @@ class RowOpensearchEmitter implements OpensearchEmitter<RowData> {
                         @Override
                         public UserCodeClassLoader getUserCodeClassLoader() {
                             return SimpleUserCodeClassLoader.create(
-                                    RowOpensearchEmitter.class.getClassLoader());
+                                    RowOpensearch2Emitter.class.getClassLoader());
                         }
                     });
         } catch (Exception e) {

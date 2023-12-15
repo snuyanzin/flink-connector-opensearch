@@ -94,7 +94,7 @@ class OpensearchDynamicSinkITCase {
     }
 
     private String getConnectorSql(String index) {
-        return String.format("'%s'='%s',\n", "connector", "opensearch")
+        return String.format("'%s'='%s',\n", "connector", "opensearch-2")
                 + String.format(
                         "'%s'='%s',\n", OpensearchConnectorOptions.INDEX_OPTION.key(), index)
                 + String.format(

@@ -70,7 +70,7 @@ import static org.apache.flink.table.factories.FactoryUtil.SINK_PARALLELISM;
 /** A {@link DynamicTableSinkFactory} for discovering OpensearchDynamicSink. */
 @Internal
 public class OpensearchDynamicSinkFactory implements DynamicTableSinkFactory {
-    private static final String FACTORY_IDENTIFIER = "opensearch";
+    private static final String FACTORY_IDENTIFIER = "opensearch-2";
 
     @Override
     public DynamicTableSink createDynamicTableSink(Context context) {

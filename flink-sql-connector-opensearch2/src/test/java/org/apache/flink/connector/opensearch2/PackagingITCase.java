@@ -39,9 +39,9 @@ class PackagingITCase {
                 Arrays.asList(
                         "META-INF/",
                         "org/apache/flink/connector/base/",
-                        "org/apache/flink/connector/opensearch2/",
-                        "org/apache/flink/opensearch2/",
-                        "org/apache/flink/streaming/connectors/opensearch2/"));
+                        "org/apache/flink/connector/opensearch/",
+                        "org/apache/flink/opensearch/",
+                        "org/apache/flink/streaming/connectors/opensearch/"));
         PackagingTestUtils.assertJarContainsServiceEntry(jar, Factory.class);
     }
 }

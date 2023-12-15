@@ -20,8 +20,8 @@ package org.apache.flink.streaming.tests;
 
 import org.apache.flink.api.connector.sink2.SinkWriter;
 import org.apache.flink.api.java.tuple.Tuple2;
-import org.apache.flink.connector.opensearch2.sink.OpensearchEmitter;
-import org.apache.flink.connector.opensearch2.sink.RequestIndexer;
+import org.apache.flink.connector.opensearch.sink.OpensearchEmitter;
+import org.apache.flink.connector.opensearch.sink.RequestIndexer;
 
 import org.opensearch.action.update.UpdateRequest;
 

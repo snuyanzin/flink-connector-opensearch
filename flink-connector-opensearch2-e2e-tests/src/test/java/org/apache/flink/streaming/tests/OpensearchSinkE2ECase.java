@@ -17,7 +17,7 @@
 
 package org.apache.flink.streaming.tests;
 
-import org.apache.flink.connector.opensearch2.test.DockerImageVersions;
+import org.apache.flink.connector.opensearch.test.DockerImageVersions;
 import org.apache.flink.connector.testframe.container.FlinkContainerTestEnvironment;
 import org.apache.flink.connector.testframe.external.DefaultContainerizedExternalSystem;
 import org.apache.flink.connector.testframe.external.ExternalSystemDataReader;

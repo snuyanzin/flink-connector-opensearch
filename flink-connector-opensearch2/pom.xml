@@ -59,7 +59,17 @@ under the License.
 			<version>${flink.version}</version>
 			<scope>provided</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.apache.flink</groupId>
+			<artifactId>flink-connector-opensearch-base</artifactId>
+			<version>${project.parent.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.opensearch</groupId>
+					<artifactId>opensearch</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 		<!-- Table ecosystem -->
 
 		<!-- Projects depending on this project won't depend on flink-table-*. -->

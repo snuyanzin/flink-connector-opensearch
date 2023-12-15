@@ -23,9 +23,9 @@ import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.connectors.opensearch2.ActionRequestFailureHandler;
-import org.apache.flink.streaming.connectors.opensearch2.OpensearchSink;
-import org.apache.flink.streaming.connectors.opensearch2.RequestIndexer;
+import org.apache.flink.streaming.connectors.opensearch.ActionRequestFailureHandler;
+import org.apache.flink.streaming.connectors.opensearch.OpensearchSink;
+import org.apache.flink.streaming.connectors.opensearch.RequestIndexer;
 import org.apache.flink.util.Collector;
 
 import org.apache.http.HttpHost;

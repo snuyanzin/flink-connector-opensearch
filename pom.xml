@@ -51,6 +51,7 @@ under the License.
 	</scm>
 
 	<modules>
+		<module>flink-connector-opensearch-base</module>
 		<module>flink-connector-opensearch</module>
 		<module>flink-connector-opensearch-e2e-tests</module>
 		<module>flink-sql-connector-opensearch</module>

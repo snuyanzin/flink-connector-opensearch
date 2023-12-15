@@ -126,43 +126,43 @@ under the License.
 							<relocations>
 								<relocation>
 									<pattern>org.apache.commons</pattern>
-									<shadedPattern>org.apache.flink.opensearch.shaded.org.apache.commons</shadedPattern>
+									<shadedPattern>org.apache.flink.opensearch2.shaded.org.apache.commons</shadedPattern>
 								</relocation>
 								<relocation>
 									<pattern>org.apache.http</pattern>
-									<shadedPattern>org.apache.flink.opensearch.shaded.org.apache.http</shadedPattern>
+									<shadedPattern>org.apache.flink.opensearch2.shaded.org.apache.http</shadedPattern>
 								</relocation>
 								<relocation>
 									<pattern>org.apache.lucene</pattern>
-									<shadedPattern>org.apache.flink.opensearch.shaded.org.apache.lucene</shadedPattern>
+									<shadedPattern>org.apache.flink.opensearch2.shaded.org.apache.lucene</shadedPattern>
 								</relocation>
 								<relocation>
 									<pattern>org.opensearch</pattern>
-									<shadedPattern>org.apache.flink.opensearch.shaded.org.opensearch</shadedPattern>
+									<shadedPattern>org.apache.flink.opensearch2.shaded.org.opensearch</shadedPattern>
 								</relocation>
 								<relocation>
 									<pattern>com.fasterxml.jackson</pattern>
-									<shadedPattern>org.apache.flink.opensearch.shaded.com.fasterxml.jackson</shadedPattern>
+									<shadedPattern>org.apache.flink.opensearch2.shaded.com.fasterxml.jackson</shadedPattern>
 								</relocation>
 								<relocation>
 									<pattern>com.carrotsearch.hppc</pattern>
-									<shadedPattern>org.apache.flink.opensearch.shaded.com.carrotsearch.hppc</shadedPattern>
+									<shadedPattern>org.apache.flink.opensearch2.shaded.com.carrotsearch.hppc</shadedPattern>
 								</relocation>
 								<relocation>
 									<pattern>com.github.mustachejava</pattern>
-									<shadedPattern>org.apache.flink.opensearch.shaded.com.github.mustachejava</shadedPattern>
+									<shadedPattern>org.apache.flink.opensearch2.shaded.com.github.mustachejava</shadedPattern>
 								</relocation>
 								<relocation>
 									<pattern>net.jpountz</pattern>
-									<shadedPattern>org.apache.flink.opensearch.shaded.net.jpountz</shadedPattern>
+									<shadedPattern>org.apache.flink.opensearch2.shaded.net.jpountz</shadedPattern>
 								</relocation>
 								<relocation>
 									<pattern>com.github.luben.zstd</pattern>
-									<shadedPattern>org.apache.flink.opensearch.shaded.com.github.luben.zstd-jni</shadedPattern>
+									<shadedPattern>org.apache.flink.opensearch2.shaded.com.github.luben.zstd-jni</shadedPattern>
 								</relocation>
 								<relocation>
 									<pattern>org.apache.logging.log4j.jul</pattern>
-									<shadedPattern>org.apache.flink.opensearch.shaded.org.apache.logging.log4j.jul</shadedPattern>
+									<shadedPattern>org.apache.flink.opensearch2.shaded.org.apache.logging.log4j.jul</shadedPattern>
 								</relocation>
 							</relocations>
 						</configuration>

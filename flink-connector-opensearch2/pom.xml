@@ -68,6 +68,10 @@ under the License.
 					<groupId>org.opensearch</groupId>
 					<artifactId>opensearch</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>org.opensearch.client</groupId>
+					<artifactId>opensearch-rest-high-level-client</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<!-- Table ecosystem -->

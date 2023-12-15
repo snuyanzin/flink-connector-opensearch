@@ -12,6 +12,7 @@ This project bundles the following dependencies under the Apache Software Licens
 - com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.15.3
 - com.github.spullara.mustache.java:compiler:0.9.10
 - commons-codec:commons-codec:1.15
+- commons-logging:commons-logging:1.2
 - org.apache.httpcomponents:httpasyncclient:4.1.5
 - org.apache.httpcomponents:httpclient:4.5.13
 - org.apache.httpcomponents:httpcore:4.4.14

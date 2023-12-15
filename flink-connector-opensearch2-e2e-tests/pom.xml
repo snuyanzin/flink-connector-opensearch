@@ -30,7 +30,7 @@ under the License.
 	</parent>
 
 	<artifactId>flink-connector-opensearch2-e2e-tests</artifactId>
-	<name>Flink : E2E Tests : Opensearch</name>
+	<name>Flink : E2E Tests : Opensearch : 2</name>
 	<packaging>jar</packaging>
 
 	<dependencies>

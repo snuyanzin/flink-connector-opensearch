@@ -58,7 +58,7 @@ under the License.
 	</modules>
 
 	<properties>
-		<flink.version>1.18-SNAPSHOT</flink.version>
+		<flink.version>1.19-SNAPSHOT</flink.version>
 		
 		<commons-compress.version>1.23.0</commons-compress.version>
 		<jackson-bom.version>2.15.3</jackson-bom.version>
@@ -358,6 +358,11 @@ under the License.
 				<groupId>net.bytebuddy</groupId>
 				<artifactId>byte-buddy-agent</artifactId>
 				<version>1.14.10</version>
+			</dependency>
+			<dependency>
+				<groupId>org.xerial.snappy</groupId>
+				<artifactId>snappy-java</artifactId>
+				<version>1.1.10.4</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

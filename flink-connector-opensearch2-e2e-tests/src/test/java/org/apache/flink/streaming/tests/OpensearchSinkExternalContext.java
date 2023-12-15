@@ -22,7 +22,7 @@ import org.apache.flink.api.common.typeinfo.TypeHint;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.connector.sink2.Sink;
 import org.apache.flink.api.java.tuple.Tuple2;
-import org.apache.flink.connector.opensearch.sink.OpensearchSinkBuilder;
+import org.apache.flink.connector.opensearch.sink.Opensearch2SinkBuilder;
 import org.apache.flink.connector.testframe.external.ExternalSystemDataReader;
 import org.apache.flink.connector.testframe.external.sink.DataStreamSinkV2ExternalContext;
 import org.apache.flink.connector.testframe.external.sink.TestingSinkSettings;
@@ -84,7 +84,7 @@ class OpensearchSinkExternalContext
     public Sink<Tuple2<Integer, String>> createSink(TestingSinkSettings sinkSettings)
             throws UnsupportedOperationException {
         client.createIndexIfDoesNotExist(indexName, 1, 0);
-        return new OpensearchSinkBuilder<Tuple2<Integer, String>>()
+        return new Opensearch2SinkBuilder<Tuple2<Integer, String>>()
                 .setHosts(HttpHost.create(addressInternal))
                 .setEmitter(new OpensearchTestEmitter(indexName))
                 .setBulkFlushMaxActions(BULK_BUFFER)

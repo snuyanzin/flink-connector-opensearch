@@ -54,9 +54,9 @@ import java.util.List;
 import static org.apache.flink.util.ExceptionUtils.firstOrSuppressed;
 import static org.apache.flink.util.Preconditions.checkNotNull;
 
-class OpensearchWriter<IN> implements SinkWriter<IN> {
+class Opensearch2Writer<IN> implements SinkWriter<IN> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(OpensearchWriter.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Opensearch2Writer.class);
 
     public static final FailureHandler DEFAULT_FAILURE_HANDLER =
             ex -> {
@@ -93,7 +93,7 @@ class OpensearchWriter<IN> implements SinkWriter<IN> {
      * @param mailboxExecutor Flink's mailbox executor
      * @param restClientFactory Flink's mailbox executor
      */
-    OpensearchWriter(
+    Opensearch2Writer(
             List<HttpHost> hosts,
             OpensearchEmitter<? super IN> emitter,
             boolean flushOnCheckpoint,

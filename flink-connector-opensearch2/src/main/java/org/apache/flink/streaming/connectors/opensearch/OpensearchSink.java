@@ -20,7 +20,8 @@ package org.apache.flink.streaming.connectors.opensearch;
 import org.apache.flink.annotation.PublicEvolving;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.configuration.Configuration;
-import org.apache.flink.connector.opensearch.sink.OpensearchSinkBuilder;
+import org.apache.flink.connector.opensearch.sink.Opensearch2Sink;
+import org.apache.flink.connector.opensearch.sink.Opensearch2SinkBuilder;
 import org.apache.flink.runtime.state.FunctionInitializationContext;
 import org.apache.flink.runtime.state.FunctionSnapshotContext;
 import org.apache.flink.streaming.api.checkpoint.CheckpointedFunction;
@@ -71,8 +72,7 @@ import static org.apache.flink.util.Preconditions.checkNotNull;
  * OpensearchSinkFunction} for processing.
  *
  * @param <T> Type of the elements handled by this sink
- * @deprecated This sink has been deprecated in favor of {@link
- *     org.apache.flink.connector.opensearch.sink.OpensearchSink}
+ * @deprecated This sink has been deprecated in favor of {@link Opensearch2Sink}
  */
 @Deprecated
 @PublicEvolving
@@ -627,7 +627,7 @@ public class OpensearchSink<T> extends RichSinkFunction<T> implements Checkpoint
      * A builder for creating an {@link OpensearchSink}.
      *
      * @param <T> Type of the elements handled by the sink this builder creates.
-     * @deprecated This has been deprecated, please use {@link OpensearchSinkBuilder}.
+     * @deprecated This has been deprecated, please use {@link Opensearch2SinkBuilder}.
      */
     @Deprecated
     @PublicEvolving

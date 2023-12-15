@@ -18,8 +18,8 @@
 
 package org.apache.flink.connector.opensearch.table;
 
-import org.apache.flink.connector.opensearch.sink.OpensearchSinkBuilder;
+import org.apache.flink.connector.opensearch.sink.Opensearch2SinkBuilder;
 
 import java.util.function.Supplier;
 
-interface OpensearchSinkBuilderSupplier<T> extends Supplier<OpensearchSinkBuilder<T>> {}
+interface OpensearchSinkBuilderSupplier<T> extends Supplier<Opensearch2SinkBuilder<T>> {}

@@ -33,14 +33,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-/** Tests for {@link OpensearchSinkBuilder}. */
+/** Tests for {@link Opensearch2SinkBuilder}. */
 @ExtendWith(TestLoggerExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class OpensearchSinkBuilderTest {
 
     @TestFactory
     Stream<DynamicTest> testValidBuilders() {
-        Stream<OpensearchSinkBuilder<Object>> validBuilders =
+        Stream<Opensearch2SinkBuilder<Object>> validBuilders =
                 Stream.of(
                         createMinimalBuilder(),
                         createMinimalBuilder()
@@ -53,7 +53,7 @@ class OpensearchSinkBuilderTest {
 
         return DynamicTest.stream(
                 validBuilders,
-                OpensearchSinkBuilder::toString,
+                Opensearch2SinkBuilder::toString,
                 builder -> assertThatNoException().isThrownBy(builder::build));
     }
 
@@ -111,12 +111,12 @@ class OpensearchSinkBuilderTest {
                 .isInstanceOf(NullPointerException.class);
     }
 
-    private OpensearchSinkBuilder<Object> createEmptyBuilder() {
-        return new OpensearchSinkBuilder<>();
+    private Opensearch2SinkBuilder<Object> createEmptyBuilder() {
+        return new Opensearch2SinkBuilder<>();
     }
 
-    private OpensearchSinkBuilder<Object> createMinimalBuilder() {
-        return new OpensearchSinkBuilder<>()
+    private Opensearch2SinkBuilder<Object> createMinimalBuilder() {
+        return new Opensearch2SinkBuilder<>()
                 .setEmitter((element, indexer, context) -> {})
                 .setHosts(new HttpHost("localhost:3000"));
     }

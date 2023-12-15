@@ -32,7 +32,7 @@ import static org.apache.flink.util.Preconditions.checkNotNull;
 import static org.apache.flink.util.Preconditions.checkState;
 
 /**
- * Builder to construct an Opensearch compatible {@link OpensearchSink}.
+ * Builder to construct an Opensearch compatible {@link Opensearch2Sink}.
  *
  * <p>The following example shows the minimal setup to create a OpensearchSink that submits actions
  * on checkpoint or the default number of actions was buffered (1000).
@@ -54,7 +54,7 @@ import static org.apache.flink.util.Preconditions.checkState;
  * @param <IN> type of the records converted to Opensearch actions
  */
 @PublicEvolving
-public class OpensearchSinkBuilder<IN> {
+public class Opensearch2SinkBuilder<IN> {
 
     private int bulkFlushMaxActions = 1000;
     private int bulkFlushMaxMb = -1;
@@ -73,14 +73,14 @@ public class OpensearchSinkBuilder<IN> {
     private Integer socketTimeout;
     private Boolean allowInsecure;
     private RestClientFactory restClientFactory;
-    private FailureHandler failureHandler = OpensearchWriter.DEFAULT_FAILURE_HANDLER;
+    private FailureHandler failureHandler = Opensearch2Writer.DEFAULT_FAILURE_HANDLER;
 
-    public OpensearchSinkBuilder() {
+    public Opensearch2SinkBuilder() {
         restClientFactory = new DefaultRestClientFactory();
     }
 
     @SuppressWarnings("unchecked")
-    protected <S extends OpensearchSinkBuilder<?>> S self() {
+    protected <S extends Opensearch2SinkBuilder<?>> S self() {
         return (S) this;
     }
 
@@ -90,14 +90,14 @@ public class OpensearchSinkBuilder<IN> {
      * @param emitter to process records into Opensearch actions.
      * @return this builder
      */
-    public <T extends IN> OpensearchSinkBuilder<T> setEmitter(
+    public <T extends IN> Opensearch2SinkBuilder<T> setEmitter(
             OpensearchEmitter<? super T> emitter) {
         checkNotNull(emitter);
         checkState(
                 InstantiationUtil.isSerializable(emitter),
                 "The Opensearch emitter must be serializable.");
 
-        final OpensearchSinkBuilder<T> self = self();
+        final Opensearch2SinkBuilder<T> self = self();
         self.emitter = emitter;
         return self;
     }
@@ -108,7 +108,7 @@ public class OpensearchSinkBuilder<IN> {
      * @param hosts http addresses describing the node locations
      * @return this builder
      */
-    public OpensearchSinkBuilder<IN> setHosts(HttpHost... hosts) {
+    public Opensearch2SinkBuilder<IN> setHosts(HttpHost... hosts) {
         checkNotNull(hosts);
         checkState(hosts.length > 0, "Hosts cannot be empty.");
         this.hosts = Arrays.asList(hosts);
@@ -122,7 +122,7 @@ public class OpensearchSinkBuilder<IN> {
      * @param deliveryGuarantee which describes the record emission behaviour
      * @return this builder
      */
-    public OpensearchSinkBuilder<IN> setDeliveryGuarantee(DeliveryGuarantee deliveryGuarantee) {
+    public Opensearch2SinkBuilder<IN> setDeliveryGuarantee(DeliveryGuarantee deliveryGuarantee) {
         checkState(
                 deliveryGuarantee != DeliveryGuarantee.EXACTLY_ONCE,
                 "Opensearch sink does not support the EXACTLY_ONCE guarantee.");
@@ -137,7 +137,7 @@ public class OpensearchSinkBuilder<IN> {
      * @param numMaxActions the maximum number of actions to buffer per bulk request.
      * @return this builder
      */
-    public OpensearchSinkBuilder<IN> setBulkFlushMaxActions(int numMaxActions) {
+    public Opensearch2SinkBuilder<IN> setBulkFlushMaxActions(int numMaxActions) {
         checkState(
                 numMaxActions == -1 || numMaxActions > 0,
                 "Max number of buffered actions must be larger than 0.");
@@ -152,7 +152,7 @@ public class OpensearchSinkBuilder<IN> {
      * @param maxSizeMb the maximum size of buffered actions, in mb.
      * @return this builder
      */
-    public OpensearchSinkBuilder<IN> setBulkFlushMaxSizeMb(int maxSizeMb) {
+    public Opensearch2SinkBuilder<IN> setBulkFlushMaxSizeMb(int maxSizeMb) {
         checkState(
                 maxSizeMb == -1 || maxSizeMb > 0,
                 "Max size of buffered actions must be larger than 0.");
@@ -166,7 +166,7 @@ public class OpensearchSinkBuilder<IN> {
      * @param intervalMillis the bulk flush interval, in milliseconds.
      * @return this builder
      */
-    public OpensearchSinkBuilder<IN> setBulkFlushInterval(long intervalMillis) {
+    public Opensearch2SinkBuilder<IN> setBulkFlushInterval(long intervalMillis) {
         checkState(
                 intervalMillis == -1 || intervalMillis >= 0,
                 "Interval (in milliseconds) between each flush must be larger than "
@@ -187,7 +187,7 @@ public class OpensearchSinkBuilder<IN> {
      * @param flushBackoffType the backoff type to use.
      * @return this builder
      */
-    public OpensearchSinkBuilder<IN> setBulkFlushBackoffStrategy(
+    public Opensearch2SinkBuilder<IN> setBulkFlushBackoffStrategy(
             FlushBackoffType flushBackoffType, int maxRetries, long delayMillis) {
         this.bulkFlushBackoffType = checkNotNull(flushBackoffType);
         checkState(
@@ -209,7 +209,7 @@ public class OpensearchSinkBuilder<IN> {
      * @param username of the Opensearch cluster user
      * @return this builder
      */
-    public OpensearchSinkBuilder<IN> setConnectionUsername(String username) {
+    public Opensearch2SinkBuilder<IN> setConnectionUsername(String username) {
         checkNotNull(username);
         this.username = username;
         return self();
@@ -221,7 +221,7 @@ public class OpensearchSinkBuilder<IN> {
      * @param password of the Opensearch cluster user
      * @return this builder
      */
-    public OpensearchSinkBuilder<IN> setConnectionPassword(String password) {
+    public Opensearch2SinkBuilder<IN> setConnectionPassword(String password) {
         checkNotNull(password);
         this.password = password;
         return self();
@@ -233,7 +233,7 @@ public class OpensearchSinkBuilder<IN> {
      * @param prefix for the communication
      * @return this builder
      */
-    public OpensearchSinkBuilder<IN> setConnectionPathPrefix(String prefix) {
+    public Opensearch2SinkBuilder<IN> setConnectionPathPrefix(String prefix) {
         checkNotNull(prefix);
         this.connectionPathPrefix = prefix;
         return self();
@@ -246,7 +246,7 @@ public class OpensearchSinkBuilder<IN> {
      * @param timeout for the connection request
      * @return this builder
      */
-    public OpensearchSinkBuilder<IN> setConnectionRequestTimeout(int timeout) {
+    public Opensearch2SinkBuilder<IN> setConnectionRequestTimeout(int timeout) {
         checkState(timeout >= 0, "Connection request timeout must be larger than or equal to 0.");
         this.connectionRequestTimeout = timeout;
         return self();
@@ -258,7 +258,7 @@ public class OpensearchSinkBuilder<IN> {
      * @param timeout for the connection
      * @return this builder
      */
-    public OpensearchSinkBuilder<IN> setConnectionTimeout(int timeout) {
+    public Opensearch2SinkBuilder<IN> setConnectionTimeout(int timeout) {
         checkState(timeout >= 0, "Connection timeout must be larger than or equal to 0.");
         this.connectionTimeout = timeout;
         return self();
@@ -271,7 +271,7 @@ public class OpensearchSinkBuilder<IN> {
      * @param timeout for the socket
      * @return this builder
      */
-    public OpensearchSinkBuilder<IN> setSocketTimeout(int timeout) {
+    public Opensearch2SinkBuilder<IN> setSocketTimeout(int timeout) {
         checkState(timeout >= 0, "Socket timeout must be larger than or equal to 0.");
         this.socketTimeout = timeout;
         return self();
@@ -284,7 +284,7 @@ public class OpensearchSinkBuilder<IN> {
      * @param allowInsecure allow or not to insecure network endpoints
      * @return this builder
      */
-    public OpensearchSinkBuilder<IN> setAllowInsecure(boolean allowInsecure) {
+    public Opensearch2SinkBuilder<IN> setAllowInsecure(boolean allowInsecure) {
         this.allowInsecure = allowInsecure;
         return self();
     }
@@ -296,7 +296,7 @@ public class OpensearchSinkBuilder<IN> {
      * @param restClientFactory the {@link RestClientFactory} instance
      * @return this builder
      */
-    public OpensearchSinkBuilder<IN> setRestClientFactory(RestClientFactory restClientFactory) {
+    public Opensearch2SinkBuilder<IN> setRestClientFactory(RestClientFactory restClientFactory) {
         this.restClientFactory = checkNotNull(restClientFactory);
         return self();
     }
@@ -308,25 +308,25 @@ public class OpensearchSinkBuilder<IN> {
      * @param failureHandler the custom handler
      * @return this builder
      */
-    public OpensearchSinkBuilder<IN> setFailureHandler(FailureHandler failureHandler) {
+    public Opensearch2SinkBuilder<IN> setFailureHandler(FailureHandler failureHandler) {
         checkNotNull(failureHandler);
         this.failureHandler = failureHandler;
         return self();
     }
 
     /**
-     * Constructs the {@link OpensearchSink} with the properties configured this builder.
+     * Constructs the {@link Opensearch2Sink} with the properties configured this builder.
      *
-     * @return {@link OpensearchSink}
+     * @return {@link Opensearch2Sink}
      */
-    public OpensearchSink<IN> build() {
+    public Opensearch2Sink<IN> build() {
         checkNotNull(emitter);
         checkNotNull(hosts);
 
         NetworkClientConfig networkClientConfig = buildNetworkClientConfig();
         BulkProcessorConfig bulkProcessorConfig = buildBulkProcessorConfig();
 
-        return new OpensearchSink<>(
+        return new Opensearch2Sink<>(
                 hosts,
                 emitter,
                 deliveryGuarantee,

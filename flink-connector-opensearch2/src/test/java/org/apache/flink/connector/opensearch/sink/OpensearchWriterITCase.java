@@ -55,11 +55,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import static org.apache.flink.connector.opensearch.sink.Opensearch2Writer.DEFAULT_FAILURE_HANDLER;
 import static org.apache.flink.connector.opensearch.sink.OpensearchTestClient.buildMessage;
-import static org.apache.flink.connector.opensearch.sink.OpensearchWriter.DEFAULT_FAILURE_HANDLER;
 import static org.assertj.core.api.Assertions.assertThat;
 
-/** Tests for {@link OpensearchWriter}. */
+/** Tests for {@link Opensearch2Writer}. */
 @Testcontainers
 @ExtendWith(TestLoggerExtension.class)
 class OpensearchWriterITCase {
@@ -95,7 +95,7 @@ class OpensearchWriterITCase {
         final BulkProcessorConfig bulkProcessorConfig =
                 new BulkProcessorConfig(flushAfterNActions, -1, -1, FlushBackoffType.NONE, 0, 0);
 
-        try (final OpensearchWriter<Tuple2<Integer, String>> writer =
+        try (final Opensearch2Writer<Tuple2<Integer, String>> writer =
                 createWriter(index, false, bulkProcessorConfig)) {
             writer.write(Tuple2.of(1, buildMessage(1)), null);
             writer.write(Tuple2.of(2, buildMessage(2)), null);
@@ -128,7 +128,7 @@ class OpensearchWriterITCase {
         final BulkProcessorConfig bulkProcessorConfig =
                 new BulkProcessorConfig(-1, -1, 1000, FlushBackoffType.NONE, 0, 0);
 
-        try (final OpensearchWriter<Tuple2<Integer, String>> writer =
+        try (final Opensearch2Writer<Tuple2<Integer, String>> writer =
                 createWriter(index, false, bulkProcessorConfig)) {
             writer.write(Tuple2.of(1, buildMessage(1)), null);
             writer.write(Tuple2.of(2, buildMessage(2)), null);
@@ -147,7 +147,7 @@ class OpensearchWriterITCase {
                 new BulkProcessorConfig(-1, -1, -1, FlushBackoffType.NONE, 0, 0);
 
         // Enable flush on checkpoint
-        try (final OpensearchWriter<Tuple2<Integer, String>> writer =
+        try (final Opensearch2Writer<Tuple2<Integer, String>> writer =
                 createWriter(index, true, bulkProcessorConfig)) {
             writer.write(Tuple2.of(1, buildMessage(1)), null);
             writer.write(Tuple2.of(2, buildMessage(2)), null);
@@ -174,7 +174,7 @@ class OpensearchWriterITCase {
         final BulkProcessorConfig bulkProcessorConfig =
                 new BulkProcessorConfig(flushAfterNActions, -1, -1, FlushBackoffType.NONE, 0, 0);
 
-        try (final OpensearchWriter<Tuple2<Integer, String>> writer =
+        try (final Opensearch2Writer<Tuple2<Integer, String>> writer =
                 createWriter(index, false, bulkProcessorConfig, metricGroup)) {
             final Counter numBytesOut = operatorIOMetricGroup.getNumBytesOutCounter();
             assertThat(numBytesOut.getCount()).isEqualTo(0);
@@ -201,7 +201,7 @@ class OpensearchWriterITCase {
         final BulkProcessorConfig bulkProcessorConfig =
                 new BulkProcessorConfig(flushAfterNActions, -1, -1, FlushBackoffType.NONE, 0, 0);
 
-        try (final OpensearchWriter<Tuple2<Integer, String>> writer =
+        try (final Opensearch2Writer<Tuple2<Integer, String>> writer =
                 createWriter(index, false, bulkProcessorConfig)) {
             final Optional<Counter> recordsSend =
                     metricListener.getCounter(MetricNames.NUM_RECORDS_SEND);
@@ -225,7 +225,7 @@ class OpensearchWriterITCase {
         final BulkProcessorConfig bulkProcessorConfig =
                 new BulkProcessorConfig(flushAfterNActions, -1, -1, FlushBackoffType.NONE, 0, 0);
 
-        try (final OpensearchWriter<Tuple2<Integer, String>> writer =
+        try (final Opensearch2Writer<Tuple2<Integer, String>> writer =
                 createWriter(index, false, bulkProcessorConfig)) {
             final Optional<Gauge<Long>> currentSendTime =
                     metricListener.getGauge("currentSendTime");
@@ -264,7 +264,7 @@ class OpensearchWriterITCase {
                 new BulkProcessorConfig(flushAfterNActions, -1, -1, FlushBackoffType.NONE, 0, 0);
 
         final TestHandler testHandler = new TestHandler();
-        try (final OpensearchWriter<Tuple2<Integer, String>> writer =
+        try (final Opensearch2Writer<Tuple2<Integer, String>> writer =
                 createWriter(index, true, bulkProcessorConfig, testHandler)) {
             // Trigger an error by updating non-existing document
             writer.write(Tuple2.of(1, "u" + buildMessage(1)), null);
@@ -273,7 +273,7 @@ class OpensearchWriterITCase {
         }
     }
 
-    private OpensearchWriter<Tuple2<Integer, String>> createWriter(
+    private Opensearch2Writer<Tuple2<Integer, String>> createWriter(
             String index, boolean flushOnCheckpoint, BulkProcessorConfig bulkProcessorConfig) {
         return createWriter(
                 index,
@@ -283,7 +283,7 @@ class OpensearchWriterITCase {
                 DEFAULT_FAILURE_HANDLER);
     }
 
-    private OpensearchWriter<Tuple2<Integer, String>> createWriter(
+    private Opensearch2Writer<Tuple2<Integer, String>> createWriter(
             String index,
             boolean flushOnCheckpoint,
             BulkProcessorConfig bulkProcessorConfig,
@@ -296,7 +296,7 @@ class OpensearchWriterITCase {
                 failureHandler);
     }
 
-    private OpensearchWriter<Tuple2<Integer, String>> createWriter(
+    private Opensearch2Writer<Tuple2<Integer, String>> createWriter(
             String index,
             boolean flushOnCheckpoint,
             BulkProcessorConfig bulkProcessorConfig,
@@ -309,13 +309,13 @@ class OpensearchWriterITCase {
                 DEFAULT_FAILURE_HANDLER);
     }
 
-    private OpensearchWriter<Tuple2<Integer, String>> createWriter(
+    private Opensearch2Writer<Tuple2<Integer, String>> createWriter(
             String index,
             boolean flushOnCheckpoint,
             BulkProcessorConfig bulkProcessorConfig,
             SinkWriterMetricGroup metricGroup,
             FailureHandler failureHandler) {
-        return new OpensearchWriter<Tuple2<Integer, String>>(
+        return new Opensearch2Writer<Tuple2<Integer, String>>(
                 Collections.singletonList(HttpHost.create(OS_CONTAINER.getHttpHostAddress())),
                 new UpdatingEmitter(index, context.getDataFieldName()),
                 flushOnCheckpoint,

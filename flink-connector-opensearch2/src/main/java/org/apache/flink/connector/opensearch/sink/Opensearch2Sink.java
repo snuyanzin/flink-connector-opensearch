@@ -49,10 +49,10 @@ import static org.apache.flink.util.Preconditions.checkNotNull;
  * </ul>
  *
  * @param <IN> type of the records converted to Opensearch actions
- * @see OpensearchSinkBuilder on how to construct a OpensearchSink
+ * @see Opensearch2SinkBuilder on how to construct a OpensearchSink
  */
 @PublicEvolving
-public class OpensearchSink<IN> implements Sink<IN> {
+public class Opensearch2Sink<IN> implements Sink<IN> {
 
     private final List<HttpHost> hosts;
     private final OpensearchEmitter<? super IN> emitter;
@@ -62,7 +62,7 @@ public class OpensearchSink<IN> implements Sink<IN> {
     private final RestClientFactory restClientFactory;
     private final FailureHandler failureHandler;
 
-    OpensearchSink(
+    Opensearch2Sink(
             List<HttpHost> hosts,
             OpensearchEmitter<? super IN> emitter,
             DeliveryGuarantee deliveryGuarantee,
@@ -82,7 +82,7 @@ public class OpensearchSink<IN> implements Sink<IN> {
 
     @Override
     public SinkWriter<IN> createWriter(InitContext context) throws IOException {
-        return new OpensearchWriter<>(
+        return new Opensearch2Writer<>(
                 hosts,
                 emitter,
                 deliveryGuarantee == DeliveryGuarantee.AT_LEAST_ONCE,

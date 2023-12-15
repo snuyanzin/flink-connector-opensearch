@@ -21,8 +21,8 @@ package org.apache.flink.connector.opensearch.table;
 import org.apache.flink.annotation.Internal;
 import org.apache.flink.api.common.serialization.SerializationSchema;
 import org.apache.flink.connector.opensearch.sink.FlushBackoffType;
-import org.apache.flink.connector.opensearch.sink.OpensearchSink;
-import org.apache.flink.connector.opensearch.sink.OpensearchSinkBuilder;
+import org.apache.flink.connector.opensearch.sink.Opensearch2Sink;
+import org.apache.flink.connector.opensearch.sink.Opensearch2SinkBuilder;
 import org.apache.flink.table.api.ValidationException;
 import org.apache.flink.table.connector.ChangelogMode;
 import org.apache.flink.table.connector.format.EncodingFormat;
@@ -44,7 +44,7 @@ import java.util.function.Function;
 import static org.apache.flink.util.Preconditions.checkNotNull;
 
 /**
- * A {@link DynamicTableSink} that describes how to create a {@link OpensearchSink} from a logical
+ * A {@link DynamicTableSink} that describes how to create a {@link Opensearch2Sink} from a logical
  * description.
  */
 @Internal
@@ -117,7 +117,7 @@ class OpensearchDynamicSink implements DynamicTableSink {
                 new RowOpensearchEmitter(
                         createIndexGenerator(), format, XContentType.JSON, createKeyExtractor());
 
-        final OpensearchSinkBuilder<RowData> builder = new OpensearchSinkBuilder<>();
+        final Opensearch2SinkBuilder<RowData> builder = new Opensearch2SinkBuilder<>();
         builder.setEmitter(rowOpensearchEmitter);
         builder.setHosts(config.getHosts().toArray(new HttpHost[0]));
         builder.setDeliveryGuarantee(config.getDeliveryGuarantee());

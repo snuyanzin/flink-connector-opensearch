@@ -54,7 +54,7 @@ import java.util.function.BiFunction;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/** Tests for {@link OpensearchSink}. */
+/** Tests for {@link Opensearch2Sink}. */
 @Testcontainers
 @ExtendWith(TestLoggerExtension.class)
 class OpensearchSinkITCase {
@@ -135,8 +135,8 @@ class OpensearchSinkITCase {
             DeliveryGuarantee deliveryGuarantee,
             @Nullable MapFunction<Long, Long> additionalMapper)
             throws Exception {
-        final OpensearchSink<Tuple2<Integer, String>> sink =
-                new OpensearchSinkBuilder<>()
+        final Opensearch2Sink<Tuple2<Integer, String>> sink =
+                new Opensearch2SinkBuilder<>()
                         .setHosts(HttpHost.create(OS_CONTAINER.getHttpHostAddress()))
                         .setEmitter(emitterProvider.apply(index, context.getDataFieldName()))
                         .setBulkFlushMaxActions(5)

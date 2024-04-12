@@ -40,6 +40,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.apache.flink.connector.testframe.utils.CollectIteratorAssertions.assertThat;
+import static org.apache.flink.core.execution.CheckpointingMode.convertFromCheckpointingMode;
 import static org.apache.flink.runtime.testutils.CommonTestUtils.waitUntilCondition;
 
 /** End to end test for OpensearchSink based on connector testing framework. */
@@ -85,7 +86,8 @@ public class OpensearchSinkE2ECase extends SinkTestSuiteBase<ComparableTuple2<In
                                     .toUri()
                                     .toURL()));
 
-    @Override
+    /** Could be removed together with dropping support of Flink 1.19. */
+    @Deprecated
     protected void checkResultWithSemantic(
             ExternalSystemDataReader<ComparableTuple2<Integer, String>> reader,
             List<ComparableTuple2<Integer, String>> testData,
@@ -99,6 +101,30 @@ public class OpensearchSinkE2ECase extends SinkTestSuiteBase<ComparableTuple2<In
                         assertThat(sort(result).iterator())
                                 .matchesRecordsFromSource(
                                         Collections.singletonList(sort(testData)), semantic);
+                        return true;
+                    } catch (Throwable t) {
+                        LOG.warn("Polled results not as expected", t);
+                        return false;
+                    }
+                },
+                5000,
+                READER_RETRY_ATTEMPTS);
+    }
+
+    protected void checkResultWithSemantic(
+            ExternalSystemDataReader<ComparableTuple2<Integer, String>> reader,
+            List<ComparableTuple2<Integer, String>> testData,
+            org.apache.flink.core.execution.CheckpointingMode semantic)
+            throws Exception {
+        waitUntilCondition(
+                () -> {
+                    try {
+                        List<ComparableTuple2<Integer, String>> result =
+                                reader.poll(Duration.ofMillis(READER_TIMEOUT));
+                        assertThat(sort(result).iterator())
+                                .matchesRecordsFromSource(
+                                        Collections.singletonList(sort(testData)),
+                                        convertFromCheckpointingMode(semantic));
                         return true;
                     } catch (Throwable t) {
                         LOG.warn("Polled results not as expected", t);

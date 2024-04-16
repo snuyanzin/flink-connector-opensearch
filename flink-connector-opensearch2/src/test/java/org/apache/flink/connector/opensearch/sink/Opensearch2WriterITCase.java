@@ -28,7 +28,6 @@ import org.apache.flink.metrics.groups.OperatorIOMetricGroup;
 import org.apache.flink.metrics.groups.SinkWriterMetricGroup;
 import org.apache.flink.metrics.testutils.MetricListener;
 import org.apache.flink.runtime.metrics.MetricNames;
-import org.apache.flink.runtime.metrics.groups.InternalSinkWriterMetricGroup;
 import org.apache.flink.runtime.metrics.groups.UnregisteredMetricGroups;
 import org.apache.flink.util.FlinkRuntimeException;
 import org.apache.flink.util.TestLoggerExtension;
@@ -56,7 +55,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import static org.apache.flink.connector.opensearch.sink.Opensearch2TestClient.buildMessage;
-import static org.apache.flink.connector.opensearch.sink.Opensearch2Writer.DEFAULT_FAILURE_HANDLER;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /** Tests for {@link Opensearch2Writer}. */
@@ -167,15 +165,17 @@ class Opensearch2WriterITCase {
         final String index = "test-inc-byte-out";
         final OperatorIOMetricGroup operatorIOMetricGroup =
                 UnregisteredMetricGroups.createUnregisteredOperatorMetricGroup().getIOMetricGroup();
-        final InternalSinkWriterMetricGroup metricGroup =
-                InternalSinkWriterMetricGroup.mock(
-                        metricListener.getMetricGroup(), operatorIOMetricGroup);
         final int flushAfterNActions = 2;
         final BulkProcessorConfig bulkProcessorConfig =
                 new BulkProcessorConfig(flushAfterNActions, -1, -1, FlushBackoffType.NONE, 0, 0);
 
         try (final Opensearch2Writer<Tuple2<Integer, String>> writer =
-                createWriter(index, false, bulkProcessorConfig, metricGroup)) {
+                createWriter(
+                        index,
+                        false,
+                        bulkProcessorConfig,
+                        TestingSinkWriterMetricGroup.getSinkWriterMetricGroup(
+                                operatorIOMetricGroup, metricListener.getMetricGroup()))) {
             final Counter numBytesOut = operatorIOMetricGroup.getNumBytesOutCounter();
             assertThat(numBytesOut.getCount()).isEqualTo(0);
             writer.write(Tuple2.of(1, buildMessage(1)), null);
@@ -279,8 +279,9 @@ class Opensearch2WriterITCase {
                 index,
                 flushOnCheckpoint,
                 bulkProcessorConfig,
-                InternalSinkWriterMetricGroup.mock(metricListener.getMetricGroup()),
-                DEFAULT_FAILURE_HANDLER);
+                TestingSinkWriterMetricGroup.getSinkWriterMetricGroup(
+                        metricListener.getMetricGroup()),
+                new Opensearch2Writer.DefaultFailureHandler());
     }
 
     private Opensearch2Writer<Tuple2<Integer, String>> createWriter(
@@ -292,7 +293,8 @@ class Opensearch2WriterITCase {
                 index,
                 flushOnCheckpoint,
                 bulkProcessorConfig,
-                InternalSinkWriterMetricGroup.mock(metricListener.getMetricGroup()),
+                TestingSinkWriterMetricGroup.getSinkWriterMetricGroup(
+                        metricListener.getMetricGroup()),
                 failureHandler);
     }
 
@@ -306,7 +308,7 @@ class Opensearch2WriterITCase {
                 flushOnCheckpoint,
                 bulkProcessorConfig,
                 metricGroup,
-                DEFAULT_FAILURE_HANDLER);
+                new DefaultFailureHandler());
     }
 
     private Opensearch2Writer<Tuple2<Integer, String>> createWriter(
@@ -331,7 +333,7 @@ class Opensearch2WriterITCase {
                 metricGroup,
                 new TestMailbox(),
                 new DefaultRestClientFactory(),
-                failureHandler);
+                new DefaultBulkResponseInspector(failureHandler));
     }
 
     private static class UpdatingEmitter implements OpensearchEmitter<Tuple2<Integer, String>> {

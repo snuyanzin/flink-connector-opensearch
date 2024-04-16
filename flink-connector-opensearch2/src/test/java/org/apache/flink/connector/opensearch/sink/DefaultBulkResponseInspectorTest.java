@@ -73,7 +73,6 @@ class DefaultBulkResponseInspectorTest {
                                                         OpType.DELETE,
                                                         new Failure(
                                                                 "index",
-                                                                "type",
                                                                 "id",
                                                                 new IOException("A"))),
                                                 new BulkItemResponse(
@@ -81,7 +80,6 @@ class DefaultBulkResponseInspectorTest {
                                                         OpType.DELETE,
                                                         new Failure(
                                                                 "index",
-                                                                "type",
                                                                 "id",
                                                                 new IOException("B")))
                                             },
@@ -111,19 +109,11 @@ class DefaultBulkResponseInspectorTest {
                                                 new BulkItemResponse(
                                                         1,
                                                         OpType.DELETE,
-                                                        new Failure(
-                                                                "index",
-                                                                "type",
-                                                                "id",
-                                                                failureCause0)),
+                                                        new Failure("index", "id", failureCause0)),
                                                 new BulkItemResponse(
                                                         2,
                                                         OpType.DELETE,
-                                                        new Failure(
-                                                                "index",
-                                                                "type",
-                                                                "id",
-                                                                failureCause1))
+                                                        new Failure("index", "id", failureCause1))
                                             },
                                             0));
                         })

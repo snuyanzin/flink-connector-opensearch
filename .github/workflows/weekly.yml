@@ -44,9 +44,6 @@ jobs:
           jdk: '8, 11',
           branch: main
         }, {
-          flink: 1.17.2,
-          branch: v1.1
-        }, {
           flink: 1.18.1,
           branch: v1.1
         }]

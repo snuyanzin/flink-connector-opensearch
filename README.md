@@ -16,6 +16,7 @@ Prerequisites:
 * Git
 * Maven (we recommend version 3.8.6)
 * Java 11
+* tst
 
 ```
 git clone https://github.com/apache/flink-connector-opensearch.git
